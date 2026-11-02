@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:postcodes/models/data_place.dart';
-import 'package:postcodes/widgets/widget_show_texts.dart';
+import 'package:postcodes/widgets/widget_principal.dart';
+import 'package:postcodes/widgets/widget_title.dart';
 
 class WidgetResults extends StatefulWidget {
   const WidgetResults.name({super.key, required this.data});
@@ -18,31 +19,8 @@ class _WidgetResultsState extends State<WidgetResults> {
       physics: const NeverScrollableScrollPhysics(),
       children: widget.data.map((place) {
         return ListTile(
-          title: Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  place.name,
-                  style: const TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 11, 10, 10),
-                  ),
-                ),
-                Text(
-                  ', ${place.countryCode}',
-                  style: const TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 11, 10, 10),
-                  ),
-                ),
-              ],
-            ),
-          ), // NOMBRE Y CÓDIGO DEL LUGAR
-          subtitle: WidgetShowTexts(data: place),
+          title: WidgetTitle(data: place), // NOMBRE Y CÓDIGO DEL LUGAR
+          subtitle: WidgetPrincipal(data: place),
           //trailing: Padding(),
         );
       }).toList(),

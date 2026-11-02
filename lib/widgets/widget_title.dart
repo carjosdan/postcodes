@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:postcodes/models/data_place.dart';
+import 'package:postcodes/styles/app_styles.dart';
 
 class WidgetTitle extends StatefulWidget {
   const WidgetTitle({super.key, required this.data});
@@ -11,26 +12,21 @@ class WidgetTitle extends StatefulWidget {
 class _WidgetTitleState extends State<WidgetTitle> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Text(
-          widget.data.name,
-          style: const TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 11, 10, 10),
+    return Padding(
+      padding: AppStyles.edgeInsetsOnlytopbottom16,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Text(
+              '${widget.data.name}, ${widget.data.countryCode}',
+              style: AppStyles.bigTitle,
+              maxLines: 1,
+              overflow: .ellipsis,
+            ),
           ),
-        ),
-        Text(
-          ', ${widget.data.countryCode}',
-          style: const TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 11, 10, 10),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

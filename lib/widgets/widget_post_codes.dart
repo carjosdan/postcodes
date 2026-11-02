@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:postcodes/models/data_place.dart';
+import 'package:postcodes/styles/app_styles.dart';
 
 class WidgetPostCodes extends StatefulWidget {
   const WidgetPostCodes({super.key, required this.data});
@@ -23,11 +24,7 @@ class _WidgetPostCodesState extends State<WidgetPostCodes> {
     final Text titlePostCodes = Text(
       'Códigos Postales',
       textAlign: TextAlign.center,
-      style: TextStyle(
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
-        fontSize: 20,
-      ),
+      style: AppStyles.sectTitle,
     );
     return
     // --- CODIGO POSTAL EXPANDIBLE ---
@@ -42,15 +39,11 @@ class _WidgetPostCodesState extends State<WidgetPostCodes> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 titlePostCodes,
-                SizedBox(height: 6),
+                AppStyles.sizedBoxHeight8,
                 Text(
                   displayedPostcodes,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.blue[700],
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
+                  style: AppStyles.textMediumBoldBlue,
                 ),
               ],
             ),
@@ -59,15 +52,8 @@ class _WidgetPostCodesState extends State<WidgetPostCodes> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               titlePostCodes,
-              SizedBox(height: 6),
-              Text(
-                postcodes.join(", "),
-                style: TextStyle(
-                  color: Colors.blue[700],
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
+              AppStyles.sizedBoxHeight8,
+              Text(postcodes.join(", "), style: AppStyles.textMediumBoldBlue),
             ],
           ); // Texto normal
 

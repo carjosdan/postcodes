@@ -5,8 +5,6 @@ import 'package:postcodes/widgets/widget_header.dart';
 import 'package:postcodes/widgets/widget_results.dart';
 import 'package:postcodes/widgets/widget_search.dart';
 
-//import 'package:postcodes/widgets/widget_title.dart';
-
 class SearchResultScreen extends StatefulWidget {
   const SearchResultScreen({super.key});
 
@@ -32,7 +30,6 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
               setState(() {});
             },
           ),
-          //WidgetTitle(data: data),
           WidgetResults.name(data: data),
         ],
       ),

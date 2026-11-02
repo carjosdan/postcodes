@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:postcodes/models/data_place.dart';
 import 'package:postcodes/services/search_service.dart';
+import 'package:postcodes/widgets/widget_search.dart';
 
 class SearchProvider extends ChangeNotifier {
   SearchService searchService = SearchService();
@@ -26,6 +29,17 @@ class SearchProvider extends ChangeNotifier {
 
     notifyListeners();
     return _dataPlace;
+  }
+
+  Future<void> trimTheValue(String value, WidgetSearch widget) async {
+    final cleanValue = value.trim();
+    if (cleanValue.length >= 3) {
+      final result = await searchPlace(value);
+      debugPrint(jsonEncode(result.map((place) => place.toJson()).toList()));
+      widget.onSearchResult(result);
+    } else {
+      widget.onSearchResult([]);
+    }
   }
 
   void clearSearch() {

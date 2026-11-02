@@ -1,3 +1,5 @@
+import 'package:postcodes/widgets/widget_post_codes.dart';
+
 class DataPlace {
   final int id;
   final String name;
@@ -40,46 +42,46 @@ class DataPlace {
   });
 
   factory DataPlace.empty() => DataPlace(
-        id: 0,
-        name: '',
-        latitude: 0,
-        longitude: 0,
-        elevation: null,
-        featureCode: null,
-        countryCode: null,
-        admin1Id: null,
-        admin2Id: null,
-        admin3Id: null,
-        timezone: null,
-        population: null,
-        postcodes: const [],
-        countryId: null,
-        country: null,
-        admin1: null,
-        admin2: null,
-        admin3: null,
-      );
+    id: 0,
+    name: '',
+    latitude: 0,
+    longitude: 0,
+    elevation: null,
+    featureCode: null,
+    countryCode: null,
+    admin1Id: null,
+    admin2Id: null,
+    admin3Id: null,
+    timezone: null,
+    population: null,
+    postcodes: const [],
+    countryId: null,
+    country: null,
+    admin1: null,
+    admin2: null,
+    admin3: null,
+  );
 
   factory DataPlace.fromJson(Map<String, dynamic> json) => DataPlace(
-        id: _asInt(json['id']) ?? 0,
-        name: _asString(json['name']) ?? '',
-        latitude: _asDouble(json['latitude']) ?? 0.0,
-        longitude: _asDouble(json['longitude']) ?? 0.0,
-        elevation: _asDouble(json['elevation']),
-        featureCode: _asString(json['feature_code']),
-        countryCode: _asString(json['country_code']),
-        admin1Id: _asInt(json['admin1_id']),
-        admin2Id: _asInt(json['admin2_id']),
-        admin3Id: _asInt(json['admin3_id']),
-        timezone: _asString(json['timezone']),
-        population: _asInt(json['population']),
-        postcodes: _asStringList(json['postcodes']),
-        countryId: _asInt(json['country_id']),
-        country: _asString(json['country']),
-        admin1: _asString(json['admin1']),
-        admin2: _asString(json['admin2']),
-        admin3: _asString(json['admin3']),
-      );
+    id: _asInt(json['id']) ?? 0,
+    name: _asString(json['name']) ?? '',
+    latitude: _asDouble(json['latitude']) ?? 0.0,
+    longitude: _asDouble(json['longitude']) ?? 0.0,
+    elevation: _asDouble(json['elevation']),
+    featureCode: _asString(json['feature_code']),
+    countryCode: _asString(json['country_code']),
+    admin1Id: _asInt(json['admin1_id']),
+    admin2Id: _asInt(json['admin2_id']),
+    admin3Id: _asInt(json['admin3_id']),
+    timezone: _asString(json['timezone']),
+    population: _asInt(json['population']),
+    postcodes: _asStringList(json['postcodes']),
+    countryId: _asInt(json['country_id']),
+    country: _asString(json['country']),
+    admin1: _asString(json['admin1']),
+    admin2: _asString(json['admin2']),
+    admin3: _asString(json['admin3']),
+  );
 
   Map<String, dynamic> toJson() => {
     'id': id,
