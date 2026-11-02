@@ -39,47 +39,118 @@ class DataPlace {
     required this.admin3,
   });
 
+  factory DataPlace.empty() => DataPlace(
+        id: 0,
+        name: '',
+        latitude: 0,
+        longitude: 0,
+        elevation: null,
+        featureCode: null,
+        countryCode: null,
+        admin1Id: null,
+        admin2Id: null,
+        admin3Id: null,
+        timezone: null,
+        population: null,
+        postcodes: const [],
+        countryId: null,
+        country: null,
+        admin1: null,
+        admin2: null,
+        admin3: null,
+      );
+
   factory DataPlace.fromJson(Map<String, dynamic> json) => DataPlace(
-    id: json["id"],
-    name: json["name"],
-    latitude: (json["latitude"] as num).toDouble(),
-    longitude: (json["longitude"] as num).toDouble(),
-    elevation: (json["elevation"] as num?)?.toDouble(),
-    featureCode: json["feature_code"],
-    countryCode: json["country_code"],
-    admin1Id: json["admin1_id"],
-    admin2Id: json["admin2_id"],
-    admin3Id: json["admin3_id"],
-    timezone: json["timezone"],
-    population: json["population"] as int?,
-    postcodes: json["postcodes"] == null
-        ? <String>[]
-        : List<String>.from(json["postcodes"].map((x) => x)),
-    countryId: json["country_id"],
-    country: json["country"],
-    admin1: json["admin1"],
-    admin2: json["admin2"],
-    admin3: json["admin3"],
-  );
+        id: _asInt(json['id']) ?? 0,
+        name: _asString(json['name']) ?? '',
+        latitude: _asDouble(json['latitude']) ?? 0.0,
+        longitude: _asDouble(json['longitude']) ?? 0.0,
+        elevation: _asDouble(json['elevation']),
+        featureCode: _asString(json['feature_code']),
+        countryCode: _asString(json['country_code']),
+        admin1Id: _asInt(json['admin1_id']),
+        admin2Id: _asInt(json['admin2_id']),
+        admin3Id: _asInt(json['admin3_id']),
+        timezone: _asString(json['timezone']),
+        population: _asInt(json['population']),
+        postcodes: _asStringList(json['postcodes']),
+        countryId: _asInt(json['country_id']),
+        country: _asString(json['country']),
+        admin1: _asString(json['admin1']),
+        admin2: _asString(json['admin2']),
+        admin3: _asString(json['admin3']),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "latitude": latitude,
-    "longitude": longitude,
-    "elevation": elevation,
-    "feature_code": featureCode,
-    "country_code": countryCode,
-    "admin1_id": admin1Id,
-    "admin2_id": admin2Id,
-    "admin3_id": admin3Id,
-    "timezone": timezone,
-    "population": population,
-    "postcodes": List<dynamic>.from(postcodes.map((x) => x)),
-    "country_id": countryId,
-    "country": country,
-    "admin1": admin1,
-    "admin2": admin2,
-    "admin3": admin3,
+    'id': id,
+    'name': name,
+    'latitude': latitude,
+    'longitude': longitude,
+    'elevation': elevation,
+    'feature_code': featureCode,
+    'country_code': countryCode,
+    'admin1_id': admin1Id,
+    'admin2_id': admin2Id,
+    'admin3_id': admin3Id,
+    'timezone': timezone,
+    'population': population,
+    'postcodes': List<dynamic>.from(postcodes.map((x) => x)),
+    'country_id': countryId,
+    'country': country,
+    'admin1': admin1,
+    'admin2': admin2,
+    'admin3': admin3,
   };
+}
+
+int? _asInt(dynamic value) {
+  if (value == null) {
+    return null;
+  }
+
+  if (value is int) {
+    return value;
+  }
+
+  if (value is num) {
+    return value.toInt();
+  }
+
+  return int.tryParse(value.toString());
+}
+
+double? _asDouble(dynamic value) {
+  if (value == null) {
+    return null;
+  }
+
+  if (value is num) {
+    return value.toDouble();
+  }
+
+  return double.tryParse(value.toString());
+}
+
+String? _asString(dynamic value) {
+  if (value == null) {
+    return null;
+  }
+
+  return value.toString();
+}
+
+List<String> _asStringList(dynamic value) {
+  if (value == null) {
+    return const <String>[];
+  }
+
+  if (value is Iterable) {
+    return value
+        .map((entry) => entry?.toString() ?? '')
+        .where((entry) => entry.isNotEmpty)
+        .toList(growable: false);
+  }
+
+  final text = value.toString();
+  return text.isEmpty ? const <String>[] : <String>[text];
 }

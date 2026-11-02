@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppStyles {
   //colores
   static final Color dark = Colors.black45;
-  static final Color primary = Colors.indigo;
+  static final Color primary = Color(0xFF1E3A8A);
   static final Color onPrimary = Colors.white;
   static final Color blueGrey = Colors.blueGrey;
 

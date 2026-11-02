@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:postcodes/models/data_place.dart';
 import 'package:postcodes/styles/app_styles.dart';
 import 'package:postcodes/widgets/widget_header.dart';
-import 'package:postcodes/widgets/widget_show_data.dart';
-import 'package:postcodes/widgets/widget_textarea.dart';
+import 'package:postcodes/widgets/widget_results.dart';
+import 'package:postcodes/widgets/widget_search.dart';
+
+//import 'package:postcodes/widgets/widget_title.dart';
 
 class SearchResultScreen extends StatefulWidget {
   const SearchResultScreen({super.key});
@@ -24,14 +26,14 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
       ),
       body: ListView(
         children: [
-          WidgetTextarea(
+          WidgetSearch(
             onSearchResult: (result) {
-              setState(() {
-                data = result;
-              });
+              data = result;
+              setState(() {});
             },
           ),
-          WidgetShowData.name(data: data),
+          //WidgetTitle(data: data),
+          WidgetResults.name(data: data),
         ],
       ),
       //bottomNavigationBar: Widgetfooter(),

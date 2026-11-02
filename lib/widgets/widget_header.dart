@@ -9,7 +9,7 @@ class WidgetHeader extends StatelessWidget {
     return AppBar(
       backgroundColor: AppStyles.primary,
       foregroundColor: AppStyles.onPrimary,
-      title: Text('POSTCODES'),
+      //title: Text('POSTCODES'),
       actions: [
         // Espacio para posibles Iconos de la cabecera
       ],

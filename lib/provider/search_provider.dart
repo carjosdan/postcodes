@@ -10,8 +10,20 @@ class SearchProvider extends ChangeNotifier {
   List<DataPlace> get dataPlace => _dataPlace;
 
   Future<List<DataPlace>> searchPlace(String value) async {
-    _name = value;
-    _dataPlace = await searchService.getDataPlace(_name);
+    _name = value.trim();
+
+    if (_name.isEmpty) {
+      _dataPlace = [];
+      notifyListeners();
+      return _dataPlace;
+    }
+
+    try {
+      _dataPlace = await searchService.getDataPlace(_name);
+    } catch (_) {
+      _dataPlace = [];
+    }
+
     notifyListeners();
     return _dataPlace;
   }
