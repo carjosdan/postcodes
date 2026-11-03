@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:postcodes/models/data_place.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:postcodes/styles/app_styles.dart';
-import 'package:postcodes/provider/search_provider.dart';
+import 'package:postcodes/features/constants/app_strings.dart';
 
 class WidgetSearch extends StatefulWidget {
-  const WidgetSearch({super.key, required this.onSearchResult});
+  const WidgetSearch({super.key, required this.onSearchChanged});
 
-  final ValueChanged<List<DataPlace>> onSearchResult;
+  final ValueChanged<String> onSearchChanged;
 
   @override
   State<WidgetSearch> createState() => _WidgetSearchState();
 }
 
 class _WidgetSearchState extends State<WidgetSearch> {
-  final TextEditingController searchController = TextEditingController();
-  final SearchProvider searchProvider = SearchProvider();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void dispose() {
-    searchController.dispose();
-    searchProvider.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -37,21 +35,34 @@ class _WidgetSearchState extends State<WidgetSearch> {
             child: Container(
               decoration: AppStyles.boxDecorationRoundedWhiteAlpha015,
               child: TextField(
+                controller: _searchController,
                 style: AppStyles.textMediumWhite,
                 cursorColor: AppStyles.onPrimary,
                 decoration: InputDecoration(
-                  hintText: 'CP o Ciudad (e.g., 08022 o Girona)',
+                  hintText: AppStrings.hintText,
                   hintStyle: AppStyles.textMediumWhiteAlpha,
                   prefixIcon: Icon(
                     Icons.search,
                     color: AppStyles.onPrimary,
                     size: 33,
                   ),
+                  suffixIcon: _searchController.text.isEmpty
+                      ? null
+                      : IconButton(
+                          onPressed: () {
+                            _searchController.clear();
+                            widget.onSearchChanged('');
+                            setState(() {});
+                          },
+                          icon: Icon(Symbols.close, color: AppStyles.onPrimary),
+                          color: AppStyles.onPrimary,
+                        ),
                   border: InputBorder.none,
                   contentPadding: AppStyles.edgeInsetsSymetric1420,
                 ),
-                onChanged: (value) async {
-                  searchProvider.trimTheValue(value, widget);
+                onChanged: (value) {
+                  setState(() {});
+                  widget.onSearchChanged(value);
                 },
               ),
             ),

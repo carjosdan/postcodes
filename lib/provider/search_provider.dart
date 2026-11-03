@@ -1,50 +1,105 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:postcodes/models/data_place.dart';
+import 'package:http/http.dart' as http;
+import 'package:postcodes/models/search_response.dart';
 import 'package:postcodes/services/search_service.dart';
-import 'package:postcodes/widgets/widget_search.dart';
 
 class SearchProvider extends ChangeNotifier {
-  SearchService searchService = SearchService();
-  List<DataPlace> _dataPlace = [];
-  String _name = '';
+  SearchProvider({SearchService? searchService})
+    : searchService = searchService ?? SearchService();
 
-  List<DataPlace> get dataPlace => _dataPlace;
+  final SearchService searchService;
+  SearchResponse _searchResponse = SearchResponse(
+    results: const [],
+    generationtimeMs: 0.0,
+  );
+  String? _searchError;
+  bool _hasNoResults = false;
+  bool _isSearching = false;
+  int _requestId = 0;
 
-  Future<List<DataPlace>> searchPlace(String value) async {
-    _name = value.trim();
+  SearchResponse get searchResponse => _searchResponse;
+  String? get searchError => _searchError;
+  bool get hasNoResults => _hasNoResults;
+  bool get isSearching => _isSearching;
 
-    if (_name.isEmpty) {
-      _dataPlace = [];
+  Future<void> searchPlace(String value) async {
+    final name = value.trim();
+    final requestId = ++_requestId;
+
+    if (name.length < 3) {
+      _resetSearchState();
       notifyListeners();
-      return _dataPlace;
+      return;
     }
+
+    _searchResponse = SearchResponse(results: const [], generationtimeMs: 0.0);
+    _searchError = null;
+    _hasNoResults = false;
+    _isSearching = true;
+    notifyListeners();
 
     try {
-      _dataPlace = await searchService.getDataPlace(_name);
-    } catch (_) {
-      _dataPlace = [];
+      final result = await searchService.getDataPlace(name);
+      if (requestId == _requestId) {
+        _searchResponse = result;
+        _hasNoResults = result.results.isEmpty;
+        debugPrint(jsonEncode(result.toJson()));
+      }
+    } on SocketException catch (error) {
+      if (requestId == _requestId) {
+        debugPrint('Search connection failed: $error');
+        _reportSearchError(
+          'No hay conexión a internet. Comprueba tu conexión e inténtalo de nuevo.',
+        );
+      }
+    } on http.ClientException catch (error) {
+      if (requestId == _requestId) {
+        debugPrint('Search request failed: $error');
+        _reportSearchError(
+          'No hay conexión a internet. Comprueba tu conexión e inténtalo de nuevo.',
+        );
+      }
+    } on HttpException catch (error) {
+      if (requestId == _requestId) {
+        debugPrint('Search service returned an HTTP error: $error');
+        _reportSearchError(
+          'Error de obtención de datos. Inténtalo de nuevo más tarde.',
+        );
+      }
+    } on FormatException catch (error) {
+      if (requestId == _requestId) {
+        debugPrint('Search service returned invalid data: $error');
+        _reportSearchError(
+          'No se pudieron leer los datos recibidos. Inténtalo de nuevo más tarde.',
+        );
+      }
+    } finally {
+      if (requestId == _requestId) {
+        _isSearching = false;
+        notifyListeners();
+      }
     }
-
-    notifyListeners();
-    return _dataPlace;
   }
 
-  Future<void> trimTheValue(String value, WidgetSearch widget) async {
-    final cleanValue = value.trim();
-    if (cleanValue.length >= 3) {
-      final result = await searchPlace(value);
-      debugPrint(jsonEncode(result.map((place) => place.toJson()).toList()));
-      widget.onSearchResult(result);
-    } else {
-      widget.onSearchResult([]);
-    }
+  void _reportSearchError(String message) {
+    _searchResponse = SearchResponse(results: const [], generationtimeMs: 0.0);
+    _hasNoResults = false;
+    _searchError = message;
+  }
+
+  void _resetSearchState() {
+    _searchResponse = SearchResponse(results: const [], generationtimeMs: 0.0);
+    _searchError = null;
+    _hasNoResults = false;
+    _isSearching = false;
   }
 
   void clearSearch() {
-    _name = '';
-    _dataPlace = [];
+    ++_requestId;
+    _resetSearchState();
     notifyListeners();
   }
 }

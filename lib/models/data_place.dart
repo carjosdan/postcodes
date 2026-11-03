@@ -1,4 +1,27 @@
-import 'package:postcodes/widgets/widget_post_codes.dart';
+import 'dart:convert';
+
+Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
+
+String welcomeToJson(Welcome data) => json.encode(data.toJson());
+
+class Welcome {
+  final List<DataPlace> results;
+  final double generationtimeMs;
+
+  Welcome({required this.results, required this.generationtimeMs});
+
+  factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
+    results: List<DataPlace>.from(
+      json["results"].map((x) => DataPlace.fromJson(x)),
+    ),
+    generationtimeMs: json["generationtime_ms"]?.toDouble(),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "results": List<dynamic>.from(results.map((x) => x.toJson())),
+    "generationtime_ms": generationtimeMs,
+  };
+}
 
 class DataPlace {
   final int id;
@@ -103,6 +126,11 @@ class DataPlace {
     'admin2': admin2,
     'admin3': admin3,
   };
+
+  String get formattedPopulation =>
+      population != null ? '$population habs.' : '-';
+
+  String get formattedElevation => elevation != null ? '$elevation m' : '-';
 }
 
 int? _asInt(dynamic value) {

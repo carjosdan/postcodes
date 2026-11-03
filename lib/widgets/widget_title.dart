@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:postcodes/models/data_place.dart';
 import 'package:postcodes/styles/app_styles.dart';
 
-class WidgetTitle extends StatefulWidget {
-  const WidgetTitle({super.key, required this.data});
-  final DataPlace data;
-  @override
-  State<WidgetTitle> createState() => _WidgetTitleState();
-}
-
-class _WidgetTitleState extends State<WidgetTitle> {
+class WidgetTitle extends StatelessWidget {
+  const WidgetTitle({super.key, required this.place});
+  final DataPlace place;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -19,7 +14,7 @@ class _WidgetTitleState extends State<WidgetTitle> {
         children: [
           Expanded(
             child: Text(
-              '${widget.data.name}, ${widget.data.countryCode}',
+              '${place.name}, ${place.countryCode}',
               style: AppStyles.bigTitle,
               maxLines: 1,
               overflow: .ellipsis,

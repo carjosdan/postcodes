@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:postcodes/models/data_place.dart';
 import 'package:postcodes/models/search_response.dart';
 
 class SearchService {
@@ -17,18 +16,17 @@ class SearchService {
         'Request failed with status ${response.statusCode}: ${response.reasonPhrase}',
       );
     }
-
     return response.body;
   }
 
-  Future<List<DataPlace>> getDataPlace(String name) async {
+  Future<SearchResponse> getDataPlace(String name) async {
     final normalizedName = name.trim();
     if (normalizedName.isEmpty) {
-      return <DataPlace>[];
+      return SearchResponse(results: const [], generationtimeMs: 0.0);
     }
 
     final escapedName = Uri.encodeQueryComponent(normalizedName);
     final body = await getBody('$configVars&name=$escapedName');
-    return searchResponseFromJson(body).results;
+    return searchResponseFromJson(body);
   }
 }

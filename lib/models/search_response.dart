@@ -3,16 +3,12 @@ import 'dart:convert';
 import 'package:postcodes/models/data_place.dart';
 
 SearchResponse searchResponseFromJson(String str) {
-  try {
-    final decoded = json.decode(str);
-    if (decoded is! Map<String, dynamic>) {
-      return SearchResponse(results: const [], generationtimeMs: 0.0);
-    }
-
-    return SearchResponse.fromJson(decoded);
-  } on FormatException {
-    return SearchResponse(results: const [], generationtimeMs: 0.0);
+  final decoded = json.decode(str);
+  if (decoded is! Map<String, dynamic>) {
+    throw const FormatException('Expected a JSON object in search response.');
   }
+
+  return SearchResponse.fromJson(decoded);
 }
 
 String searchResponseToJson(SearchResponse data) => json.encode(data.toJson());

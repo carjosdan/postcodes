@@ -2,98 +2,59 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:postcodes/models/data_place.dart';
 import 'package:postcodes/styles/app_styles.dart';
+import 'package:postcodes/features/widget_card_metric.dart';
+import 'package:postcodes/widgets/widget_weather.dart';
+import 'package:postcodes/features/constants/app_strings.dart';
 
-class WidgetCard extends StatefulWidget {
-  const WidgetCard({super.key, required this.data});
-  final DataPlace data;
+class WidgetCard extends StatelessWidget {
+  const WidgetCard({super.key, required this.place});
 
-  @override
-  State<WidgetCard> createState() => _WidgetCardState();
-}
+  final DataPlace place;
 
-class _WidgetCardState extends State<WidgetCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: AppStyles.whiteRGB, // Color de fondo del Card
+      color: AppStyles.whiteRGB,
       elevation: 16,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AppStyles.sizedBoxHeight26,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                crossAxisAlignment: .start,
-                children: [
-                  //Icon(Icons.groups, color: Colors.black, size: 40),
-                  AppStyles.styleIconCard(Icons.groups),
-                  AppStyles.sizedBoxHeight8,
-                  Text(
-                    widget.data.population != null
-                        ? 'Población:\n${widget.data.population} habs.'
-                        : 'Población: -',
-                    style: AppStyles.textSmallBold,
-                  ),
-                ],
-              ), // POBLACION
-              Column(
-                crossAxisAlignment: .start,
-                children: [
-                  AppStyles.styleIconCard(Symbols.altitude),
-                  AppStyles.sizedBoxHeight8,
-                  Text('Elevación:', style: AppStyles.textSmallBold),
-                  Text(
-                    widget.data.elevation != null
-                        ? '${widget.data.elevation} m'
-                        : '-',
-                    style: AppStyles.textSmallBold,
-                  ),
-                ],
-              ), // ELEVACION
-            ],
-          ),
-          AppStyles.sizedBoxHeight32,
+      shape: AppStyles.roundedBorder,
+      child: Padding(
+        padding: AppStyles.edgeInsetsSymetric258,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppStyles.sizedBoxHeight16,
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                crossAxisAlignment: .start,
-                children: [
-                  AppStyles.styleIconCard(Icons.place),
-                  AppStyles.sizedBoxHeight8,
-                  Text('Coordenadas:', style: AppStyles.textSmallBold),
-                  Text(
-                    'Lat: ${widget.data.latitude}',
-                    style: AppStyles.textSmallBold,
-                  ),
-                  Text(
-                    'Lon: ${widget.data.longitude}',
-                    style: AppStyles.textSmallBold,
-                  ),
-                ],
-              ), // COORDENADAS
-              Column(
-                crossAxisAlignment: .start,
-                children: [
-                  AppStyles.styleIconCard(Icons.schedule),
-                  AppStyles.sizedBoxHeight8,
-                  Text('Zona horaria:', style: AppStyles.textSmallBold),
-                  Text(
-                    widget.data.timezone != null
-                        ? widget.data.timezone.toString()
-                        : '-',
-                    style: AppStyles.textSmallBold,
-                  ),
-                ],
-              ), // ZONA HORARIA
-            ],
-          ),
-          AppStyles.sizedBoxHeight26,
-        ],
+            // Primera fila de métricas (Población y Elevación)
+            CardMetricItem(
+              icon: Icons.groups,
+              title: AppStrings.populationMetricLabel,
+              value: place.formattedPopulation,
+            ),
+            CardMetricItem(
+              icon: Symbols.altitude,
+              title: AppStrings.elevationMetricLabel,
+              value: place.formattedElevation,
+            ),
+            AppStyles.sizedBoxHeight8,
+
+            // Segunda fila de métricas (Coordenadas y Zona Horaria)
+            CardMetricItem(
+              icon: Icons.place,
+              title: AppStrings.coordinatesLabel,
+              value:
+                  '${AppStrings.latitudePrefix} ${place.latitude}\n${AppStrings.longitudePrefix} ${place.longitude}',
+            ),
+            CardMetricItem(
+              icon: Icons.schedule,
+              title: AppStrings.timeZoneMetricLabel,
+              value: place.timezone ?? AppStrings.unavailableValue,
+            ),
+
+            WidgetWeather(place: place),
+
+            AppStyles.sizedBoxHeight26,
+          ],
+        ),
       ),
     );
   }

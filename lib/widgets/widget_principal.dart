@@ -3,33 +3,37 @@ import 'package:postcodes/models/data_place.dart';
 import 'package:postcodes/styles/app_styles.dart';
 import 'package:postcodes/widgets/widget_balloons.dart';
 import 'package:postcodes/widgets/widget_card.dart';
+import 'package:postcodes/widgets/widget_generation_time.dart';
 import 'package:postcodes/widgets/widget_post_codes.dart';
 
-class WidgetPrincipal extends StatefulWidget {
-  const WidgetPrincipal({super.key, required this.data});
-  final DataPlace data;
+class WidgetPrincipal extends StatelessWidget {
+  const WidgetPrincipal({
+    super.key,
+    required this.place,
+    required this.generationtimeMs,
+  });
 
-  @override
-  State<WidgetPrincipal> createState() => _WidgetPrincipalState();
-}
+  final DataPlace place;
+  final double generationtimeMs;
 
-class _WidgetPrincipalState extends State<WidgetPrincipal> {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        WidgetBalloons(data: widget.data),
+        WidgetBalloons(place: place),
 
         AppStyles.sizedBoxHeight16,
 
-        WidgetPostCodes(data: widget.data),
+        WidgetPostCodes(place: place),
 
-        AppStyles.sizedBoxHeight16,
+        AppStyles.sizedBoxHeight8,
 
-        WidgetCard(data: widget.data),
+        WidgetCard(place: place),
 
-        AppStyles.sizedBoxHeight16,
+        AppStyles.sizedBoxHeight32,
+
+        WidgetGenerationTime(generationtimeMs: generationtimeMs),
 
         AppStyles.dividerBlack,
       ],
