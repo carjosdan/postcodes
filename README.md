@@ -6,7 +6,7 @@ también el tiempo actual del lugar.
 
 ## Funcionalidades
 - Si no se ha realizado busqueda en el punto inicial aparece las instrucciones.
-  ![Instrucciones|389](screenshots/instructions.png)
+  ![Instrucciones](screenshots/instructions.png){width=100px}
 
 
 - Búsqueda de lugares con un mínimo de tres caracteres.
