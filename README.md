@@ -10,8 +10,6 @@ también el tiempo actual del lugar.
 
   ![Instrucciones](screenshots/instructions.png)
 
-![resultados de busqueda](screenshots/search.png#w=50)
-
 - Búsqueda de lugares con un mínimo de tres caracteres.
 
 - Resultados con códigos postales, población, elevación, coordenadas y zona
