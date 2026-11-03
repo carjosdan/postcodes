@@ -6,6 +6,7 @@ también el tiempo actual del lugar.
 
 ## Funcionalidades
 - Si no se ha realizado busqueda en el punto inicial aparece las instrucciones.
+  
   ![Instrucciones](screenshots/instructions.png)
 
 - Búsqueda de lugares con un mínimo de tres caracteres.
@@ -14,6 +15,7 @@ también el tiempo actual del lugar.
   horaria.
 - Consulta del tiempo actual: temperatura, condición meteorológica y velocidad
   del viento.
+  
   ![resultados de busqueda](screenshots/search.png)
 
 - Mensajes para estados de carga, ausencia de resultados y errores.
@@ -21,12 +23,19 @@ también el tiempo actual del lugar.
   Errores:
 
   Error de conexión a internet
+  
   ![error de conexión a internet](screenshots/error_conexion.png)
+  
   Error de servicio de busquedas
+  
   ![error en el servicio de busquedas](screenshots/error_service.png)
+  
   Error de código postal o nombre no encontrado.
+  
   ![no se ha encontrado el CP o nombre](screenshots/not_found.png)
+  
   Error Weather -> error clima
+  
   ![error de obtención de datos del clima](screenshots/error_got_weather.png)
 
   Nota: al ser el clima un dato secundario la respuesta para cualquier error será la misma, a nivel de usuario es indiferente cualquier otro error. 
